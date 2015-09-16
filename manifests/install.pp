@@ -1,6 +1,8 @@
 class mars::install (
   ) {
   }
+  notify { "Installing MARS": }
+  
   # these are also given by: puppet-sdm
   include epel
   #!package { ['git', ]: }
