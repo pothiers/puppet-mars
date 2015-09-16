@@ -2,6 +2,7 @@ class mars::install (
   ) {
   }
   notify { "Installing MARS": }
+  notice("Installing mars")
   
   # these are also given by: puppet-sdm
   include epel
