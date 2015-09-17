@@ -40,13 +40,13 @@ class mars::install {
     target => '/usr/bin/pip3.4',
   }
 
-  python::requirements { '/etc/mars/requirements.txt':
-    owner  => 'root',
-  } 
+#!  python::requirements { '/etc/mars/requirements.txt':
+#!    owner  => 'root',
+#!  } 
   package{ ['mars'] : }
   
 Class['python'] -> Package['python34u-pip'] -> File['/usr/bin/pip']
-  -> Python::Requirements['/etc/mars/requirements.txt']
+#!  -> Python::Requirements['/etc/mars/requirements.txt']
   -> Package['mars'] 
 #!  -> Service['djangod']
   }
