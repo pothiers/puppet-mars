@@ -18,15 +18,15 @@ class mars::install {
   }
   -> Package<| provider == 'yum' |>
 
- yumrepo { 'mars':
-   descr    => 'mars',
-   baseurl  => "http://mirrors.sdm.noao.edu/mars",
-   enabled  => 1,
-   gpgcheck => 0,
-   priority => 1,
-   mirrorlist => absent,
- }
- -> Package<| provider == 'yum' |>
+#! yumrepo { 'mars':
+#!   descr    => 'mars',
+#!   baseurl  => "http://mirrors.sdm.noao.edu/mars",
+#!   enabled  => 1,
+#!   gpgcheck => 0,
+#!   priority => 1,
+#!   mirrorlist => absent,
+#! }
+#! -> Package<| provider == 'yum' |>
 
   
   package { ['python34u-pip']: }
