@@ -1,8 +1,8 @@
 class mars::install (
+  $stamp = strftime("%Y-%m-%d %H:%M:%S")
   ) {
-  }
-  notify { "Installing MARS": }
-  notice("Installing mars")
+  notify { "Installing MARS module": }
+  notice("Installing mars module")
   
   # these are also given by: puppet-sdm
   include epel
@@ -53,3 +53,4 @@ class mars::install (
   #!-> Package['mars'] 
   #!-> Service['djangod']
   
+  }
