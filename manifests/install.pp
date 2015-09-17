@@ -48,5 +48,5 @@ class mars::install {
 Class['python'] -> Package['python34u-pip'] -> File['/usr/bin/pip']
   -> Python::Requirements['/etc/mars/requirements.txt']
   -> Package['mars'] 
-  -> Service['djangod']
+#!  -> Service['djangod']
   }
