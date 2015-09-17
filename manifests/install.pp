@@ -5,7 +5,7 @@ class mars::install (
   notice("Installing mars module")
   
   # these are also given by: puppet-sdm
-  include epel
+  #!include epel
   #!package { ['git', ]: }
   ensure_resource('package', ['git', ], {'ensure' => 'present'})
 
