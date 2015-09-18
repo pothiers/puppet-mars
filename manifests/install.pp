@@ -8,6 +8,11 @@ class mars::install {
 
   include augeas
 
+  file { [ '/var/run/mars', '/var/log/mars', '/etc/mars', '/var/mars']:
+    ensure => 'directory',
+    group  => 'root',
+    mode   => '0774',
+  } ->
   file { '/etc/mars/requirements.txt':
     source => 'puppet:///modules/mars/requirements.txt',
     }
