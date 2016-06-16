@@ -1,5 +1,5 @@
 class mars::install {
-  notify { "Installing MARS module": }
+  #! notify { "Installing MARS module": }
   
   # these are also given by: puppet-sdm
   #!include epel
@@ -15,7 +15,13 @@ class mars::install {
   } ->
   file { '/etc/mars/requirements.txt':
     source => 'puppet:///modules/mars/requirements.txt',
-    }
+  }
+
+  file { '/etc/init.d/marssvc':
+    source => 'puppet:///modules/mars/marssvc',
+    mode   => '0777',
+  }
+  
 
   yumrepo { 'ius':
     descr      => 'ius - stable',
@@ -52,7 +58,7 @@ class mars::install {
   python::requirements { '/etc/mars/requirements.txt':
     owner  => 'root',
   } 
-  package{ ['postgresql', 'postgresql-devel', 'mars'] : }
+  package{ ['postgresql', 'postgresql-devel', 'mars', 'expect'] : }
   
 Class['python'] -> Package['python34u-pip'] -> File['/usr/bin/pip']
   -> Python::Requirements['/etc/mars/requirements.txt']
