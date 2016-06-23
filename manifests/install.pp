@@ -17,10 +17,10 @@ class mars::install {
     source => 'puppet:///modules/mars/requirements.txt',
   }
 
-  file { '/etc/init.d/marssvc':
-    source => 'puppet:///modules/mars/marssvc',
-    mode   => '0777',
-  }
+#!  file { '/etc/init.d/marssvc':
+#!    source => 'puppet:///modules/mars/marssvc',
+#!    mode   => '0777',
+#!  }
   
 
   yumrepo { 'ius':
@@ -44,24 +44,24 @@ class mars::install {
 #! -> Package<| provider == 'yum' |>
 
   
-  package { ['python34u-pip']: }
+  package { ['python34u-pip']: } ->
   class { 'python':
     version    => '34u',
     pip        => false,
     dev        => true,
-  } 
+  } ->
   file { '/usr/bin/pip':
     ensure => 'link',
     target => '/usr/bin/pip3.4',
-  }
-
+  } ->
   python::requirements { '/etc/mars/requirements.txt':
     owner  => 'root',
   } 
-  package{ ['postgresql', 'postgresql-devel', 'mars', 'expect'] : }
+  package{ ['postgresql', 'postgresql-devel', 'mars', 'expect',
+            'python-matplotlib'] : }
   
-Class['python'] -> Package['python34u-pip'] -> File['/usr/bin/pip']
-  -> Python::Requirements['/etc/mars/requirements.txt']
-  -> Package['mars'] 
+#!Class['python'] -> Package['python34u-pip'] -> File['/usr/bin/pip']
+#!  -> Python::Requirements['/etc/mars/requirements.txt']
+#!  -> Package['mars'] 
 #!  -> Service['djangod']
   }
