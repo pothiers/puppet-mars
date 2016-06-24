@@ -15,7 +15,14 @@ class mars::install {
   } ->
   file { '/etc/mars/requirements.txt':
     source => 'puppet:///modules/mars/requirements.txt',
+  } ->
+  vcsrepo { '/opt/mars' :
+    ensure   => latest,
+    provider => git,
+    source   => 'https://github.com/pothiers/mars.git',
+    revision => 'master',
   }
+
 
 #!  file { '/etc/init.d/marssvc':
 #!    source => 'puppet:///modules/mars/marssvc',
