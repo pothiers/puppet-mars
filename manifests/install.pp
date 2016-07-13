@@ -68,12 +68,10 @@ class mars::install {
   package{ ['postgresql', 'postgresql-devel', 'mars', 'expect',
             'python-matplotlib'] : }
   
-  }
 
   file { '/etc/yum.repos.d/nginx.repo':
     replace => false,
     source => 'puppet:///modules/mars/nginx.repo',
   } ->
-  package { 'nginx' }
-  
-    
+  package { ['nginx'] }
+}
