@@ -14,7 +14,7 @@ class mars::install {
     mode   => '0774',
   } ->
   file { '/etc/mars/requirements.txt':
-    replace => false,
+    replace => true,
     source => 'puppet:///modules/mars/requirements.txt',
   } ->
   vcsrepo { '/opt/mars' :
@@ -64,7 +64,6 @@ class mars::install {
   } ->
   python::requirements { '/etc/mars/requirements.txt':
     owner  => 'root',
-    replace => true,
   } 
   package{ ['postgresql', 'postgresql-devel', 'mars', 'expect',
             'python-matplotlib'] : }
