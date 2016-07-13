@@ -69,3 +69,11 @@ class mars::install {
             'python-matplotlib'] : }
   
   }
+
+  file { '/etc/yum.repos.d/nginx.repo':
+    replace => false,
+    source => 'puppet:///modules/mars/nginx.repo',
+  } ->
+  package { 'nginx' }
+  
+    
