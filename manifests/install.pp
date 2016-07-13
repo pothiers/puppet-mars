@@ -64,6 +64,7 @@ class mars::install {
   } ->
   python::requirements { '/etc/mars/requirements.txt':
     owner  => 'root',
+    replace => true,
   } 
   package{ ['postgresql', 'postgresql-devel', 'mars', 'expect',
             'python-matplotlib'] : }
