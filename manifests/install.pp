@@ -73,5 +73,5 @@ class mars::install {
     replace => false,
     source => 'puppet:///modules/mars/nginx.repo',
   } ->
-  package { ['nginx'] }
+  package { ['nginx'] : }
 }
