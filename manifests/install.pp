@@ -65,11 +65,12 @@ class mars::install {
     ensure => 'link',
     target => '/usr/bin/pip3.4',
   } ->
-  package{ ['postgresql', 'postgresql-devel', 'mars', 'expect',
+  package{ ['postgresql', 'postgresql-devel', 'expect',
             'python-matplotlib'] : } ->
   python::requirements { '/etc/mars/requirements.txt':
     owner  => 'root',
-  } 
+  } ->
+  package { ['mars'] : }
   
 
   file { '/etc/yum.repos.d/nginx.repo':
