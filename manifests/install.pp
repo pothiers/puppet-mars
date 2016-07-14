@@ -65,8 +65,7 @@ class mars::install {
     ensure => 'link',
     target => '/usr/bin/pip3.4',
   } ->
-  package{ ['postgresql', 'postgresql-devel', 'expect',
-            'python-matplotlib'] : } ->
+  package{ ['postgresql', 'postgresql-devel', 'expect'] : } ->
   python::requirements { '/etc/mars/requirements.txt':
     owner  => 'root',
   } ->
