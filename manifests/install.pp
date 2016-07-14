@@ -24,6 +24,9 @@ class mars::install {
     revision => 'master',
   }
 
+  file { [ '/var/www', '/var/www/mars', '/var/www/mars/static']:
+    ensure => 'directory',
+  }
 
 #!  file { '/etc/init.d/marssvc':
 #!    source => 'puppet:///modules/mars/marssvc',
@@ -62,11 +65,11 @@ class mars::install {
     ensure => 'link',
     target => '/usr/bin/pip3.4',
   } ->
+  package{ ['postgresql', 'postgresql-devel', 'mars', 'expect',
+            'python-matplotlib'] : } ->
   python::requirements { '/etc/mars/requirements.txt':
     owner  => 'root',
   } 
-  package{ ['postgresql', 'postgresql-devel', 'mars', 'expect',
-            'python-matplotlib'] : }
   
 
   file { '/etc/yum.repos.d/nginx.repo':
