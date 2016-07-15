@@ -70,7 +70,9 @@ class mars::install {
     owner     => 'root',
     subscribe => File['/etc/mars/requirements.txt'],
   } ->
-  package { ['mars'] : }
+  package { ['mars'] :
+    ensure => 'latest',
+  }
   
 
   file { '/etc/yum.repos.d/nginx.repo':
