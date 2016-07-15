@@ -67,7 +67,8 @@ class mars::install {
   } ->
   package{ ['postgresql', 'postgresql-devel', 'expect'] : } ->
   python::requirements { '/etc/mars/requirements.txt':
-    owner  => 'root',
+    owner     => 'root',
+    subscribe => File['/etc/mars/requirements.txt'],
   } ->
   package { ['mars'] : }
   
