@@ -1,11 +1,5 @@
 class mars::install {
-  #! notify { "Installing MARS module": }
-  
-  # these are also given by: puppet-sdm
-  #!include epel
-  #!package { ['git', ]: }
   ensure_resource('package', ['git', ], {'ensure' => 'present'})
-
   include augeas
 
   file { [ '/var/run/mars', '/var/log/mars', '/etc/mars', '/var/mars']:
@@ -28,10 +22,6 @@ class mars::install {
     ensure => 'directory',
   }
 
-#!  file { '/etc/init.d/marssvc':
-#!    source => 'puppet:///modules/mars/marssvc',
-#!    mode   => '0777',
-#!  }
   
 
   yumrepo { 'ius':
