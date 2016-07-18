@@ -20,7 +20,7 @@ class mars::install (
     revision => 'master',
   }
 
-  file { '/etc/mars/django_local_settings.txt':
+  file { '/etc/mars/django_local_settings.py':
     replace => false,
     source  => "${djsettings}",
   } 
