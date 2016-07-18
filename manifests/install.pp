@@ -75,11 +75,5 @@ class mars::install (
     source => 'puppet:///modules/mars/nginx.repo',
   } ->
   package { ['nginx'] : }
-
-  file { '/etc/yum.repos.d/nginx.repo':
-    replace => false,
-    source => 'puppet:///modules/mars/nginx.repo',
-  } ->
-
   
 }
