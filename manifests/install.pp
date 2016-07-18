@@ -1,4 +1,6 @@
-class mars::install {
+class mars::install (
+  $djsettings = hiera('localdjango'),
+  ) {
   ensure_resource('package', ['git', ], {'ensure' => 'present'})
   include augeas
 
@@ -18,11 +20,15 @@ class mars::install {
     revision => 'master',
   }
 
+  file { '/etc/mars/django_local_settings.txt':
+    replace => false,
+    source  => "${djsettings}",
+  } 
+
   file { [ '/var/www', '/var/www/mars', '/var/www/mars/static']:
     ensure => 'directory',
   }
 
-  
 
   yumrepo { 'ius':
     descr      => 'ius - stable',
@@ -63,11 +69,17 @@ class mars::install {
   package { ['mars'] :
     ensure => 'latest',
   }
-  
 
   file { '/etc/yum.repos.d/nginx.repo':
     replace => false,
     source => 'puppet:///modules/mars/nginx.repo',
   } ->
   package { ['nginx'] : }
+
+  file { '/etc/yum.repos.d/nginx.repo':
+    replace => false,
+    source => 'puppet:///modules/mars/nginx.repo',
+  } ->
+
+  
 }
