@@ -50,12 +50,7 @@ class mars::install (
 #! }
 #! -> Package<| provider == 'yum' |>
 
-  vcsrepo { '/opt/mars' :
-    ensure   => latest,
-    provider => git,
-    source   => 'https://github.com/pothiers/mars.git',
-    revision => 'master',
-  }->
+
   package { ['python34u-pip']: } ->
   class { 'python':
     version    => '34u',
