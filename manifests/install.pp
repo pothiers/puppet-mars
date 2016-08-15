@@ -64,7 +64,7 @@ class mars::install (
   package{ ['postgresql', 'postgresql-devel', 'expect'] : } 
   python::requirements { '/opt/mars/requirements.txt':
     owner     => 'root',
-    subscribe => File['/opt/mars/requirements.txt'],
+    #!subscribe => File['/opt/mars/requirements.txt'],
   } 
 
   file { '/etc/yum.repos.d/nginx.repo':
