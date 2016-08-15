@@ -22,7 +22,7 @@ class mars::install (
 
   file { '/etc/mars/django_local_settings.py':
     replace => false,
-    source  =>a "${djsettings}",
+    source  => "${djsettings}",
   } 
 
   file { [ '/var/www', '/var/www/mars', '/var/www/mars/static']:
