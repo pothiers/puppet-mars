@@ -22,7 +22,7 @@ class mars::install (
 
   file { '/etc/mars/django_local_settings.py':
     replace => false,
-    source  => "${djsettings}",
+    source  =>a "${djsettings}",
   } 
 
   file { [ '/var/www', '/var/www/mars', '/var/www/mars/static']:
@@ -50,7 +50,12 @@ class mars::install (
 #! }
 #! -> Package<| provider == 'yum' |>
 
-  
+  vcsrepo { '/opt/mars' :
+    ensure   => latest,
+    provider => git,
+    source   => 'https://github.com/pothiers/mars.git',
+    revision => 'master',
+  }->
   package { ['python34u-pip']: } ->
   class { 'python':
     version    => '34u',
@@ -61,19 +66,18 @@ class mars::install (
     ensure => 'link',
     target => '/usr/bin/pip3.4',
   } ->
-  package{ ['postgresql', 'postgresql-devel', 'expect'] : } ->
-  python::requirements { '/etc/mars/requirements.txt':
+  package{ ['postgresql', 'postgresql-devel', 'expect'] : } 
+  python::requirements { '/opt/mars/requirements.txt':
     owner     => 'root',
-    subscribe => File['/etc/mars/requirements.txt'],
-  } ->
-  package { ['mars'] :
-    ensure => 'latest',
-  }
+    subscribe => File['/opt/mars/requirements.txt'],
+  } 
 
   file { '/etc/yum.repos.d/nginx.repo':
     replace => false,
     source => 'puppet:///modules/mars/nginx.repo',
   } ->
   package { ['nginx'] : }
+
+
   
 }
