@@ -42,7 +42,8 @@ class mars::install (
 
   package{ ['postgresql', 'postgresql-devel', 'expect'] : } ->
   class { 'python':
-    version    => '34u',
+    #version    => '34u',
+    version    => '35',
     pip        => 'present',
     dev        => 'present',
     virtualenv => 'present',
@@ -50,7 +51,7 @@ class mars::install (
   } ->
   python::pyvenv { '/opt/mars' :
     ensure    => present,
-    version   => '34u',
+    version   => '35',
     venv_dir  => '/home/pothiers/virtualenvs',
     owner     => 'pothiers',
     }
