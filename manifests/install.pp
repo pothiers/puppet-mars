@@ -41,14 +41,13 @@ class mars::install (
   -> Package<| provider == 'yum' |>
 
   package{ ['postgresql', 'postgresql-devel', 'expect'] : } ->
-  #package { ['python34u-pip']: } ->
+  package { ['python34u-pip']: } ->
   class { 'python':
     version    => '34u',
     #!pip        => false,
     #!version    => '35',
     #!pip        => true,
     dev        => true,
-    gunicorn   => true,
   } ->
   #!file { '/usr/bin/pip':
   #!  ensure => 'link',
