@@ -44,9 +44,9 @@ class mars::install (
   class { 'python':
     #version    => '34u',
     version    => '35',
-    pip        => 'present',
+    #pip        => 'present',
     dev        => 'present',
-    virtualenv => 'present',
+    #virtualenv => 'present',
     gunicorn   => 'present',
   } ->
   python::pyvenv { '/opt/mars' :
