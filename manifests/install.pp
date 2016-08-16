@@ -3,7 +3,6 @@ class mars::install (
   ) {
   ensure_resource('package', ['git', ], {'ensure' => 'present'})
   include augeas
-  include python
 
   file { [ '/var/run/mars', '/var/log/mars', '/etc/mars', '/var/mars']:
     ensure => 'directory',
@@ -41,24 +40,23 @@ class mars::install (
   }
   -> Package<| provider == 'yum' |>
 
-  package{ ['postgresql', 'postgresql-devel', 'expect'] : } 
-  #!class { 'python':
-  #!  version    => '35',
-  #!  pip        => 'present',
-  #!  dev        => 'present',
-  #!  virtualenv => 'present',
-  #!  gunicorn   => 'present',
-  #!  } 
-  python::pyvenv { '/opt/mars' :
-    ensure    => present,
-    version   => '35',
-    venv_dir  => '/home/pothiers/virtualenvs',
-    owner     => 'pothiers',
-    }
+  package{ ['postgresql', 'postgresql-devel', 'expect'] : } ->
+  package { ['python34u-pip']: } ->
+  class { 'python':
+    version    => '34u',
+    pip        => false,
+    dev        => true,
+  } ->
+  file { '/usr/bin/pip':
+    ensure => 'link',
+    target => '/usr/bin/pip3.4',
+  } ->
+  file { '/usr/local/bin/python3':
+    ensure => 'link',
+    target => '/usr/bin/python3',
+  } ->
   python::requirements { '/opt/mars/requirements.txt':
     owner     => 'root',
-    #!subscribe => File['/opt/mars/requirements.txt'],
-    virtualenv => '/opt/mars',
   } 
 
   file { '/etc/yum.repos.d/nginx.repo':
