@@ -40,7 +40,7 @@ class mars::install (
   }
   -> Package<| provider == 'yum' |>
 
-  package{ ['postgresql', 'postgresql-devel', 'expect', 'python34u-pip'] : } ->
+  package{ ['postgresql', 'postgresql-devel', 'expect'] : } ->
   class { 'python':
     version    => '34u',
     pip        => 'present',
@@ -48,7 +48,7 @@ class mars::install (
     virtualenv => 'present',
     gunicorn   => 'present',
   } ->
-  python::pyvenv { '/opt/mars' :
+  python::pyvenv { '/opt/mars' :`
     ensure    => present,
     version   => '3.4u',
     venv_dir  => '/home/pothiers/virtualenvs',
