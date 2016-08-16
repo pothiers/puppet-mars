@@ -50,7 +50,7 @@ class mars::install (
   } ->
   python::pyvenv { '/opt/mars' :
     ensure    => present,
-    version   => '3.4u',
+    version   => '34u',
     venv_dir  => '/home/pothiers/virtualenvs',
     owner     => 'pothiers',
     }
