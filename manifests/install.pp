@@ -3,6 +3,7 @@ class mars::install (
   ) {
   ensure_resource('package', ['git', ], {'ensure' => 'present'})
   include augeas
+  include python
 
   file { [ '/var/run/mars', '/var/log/mars', '/etc/mars', '/var/mars']:
     ensure => 'directory',
@@ -41,16 +42,13 @@ class mars::install (
   -> Package<| provider == 'yum' |>
 
   package{ ['postgresql', 'postgresql-devel', 'expect'] : } 
-  ensure_resource(
-    'class',
-    'python',
-    {
-      version    => '35',
-      pip        => 'present',
-      dev        => 'present',
-      virtualenv => 'present',
-      gunicorn   => 'present',
-      } ) 
+  #!class { 'python':
+  #!  version    => '35',
+  #!  pip        => 'present',
+  #!  dev        => 'present',
+  #!  virtualenv => 'present',
+  #!  gunicorn   => 'present',
+  #!  } 
   python::pyvenv { '/opt/mars' :
     ensure    => present,
     version   => '35',
