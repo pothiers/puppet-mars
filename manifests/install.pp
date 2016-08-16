@@ -19,7 +19,7 @@ class mars::install (
     source   => 'https://github.com/pothiers/mars.git',
     #!revision => 'master',
     revision => 'pat',
-    notify   =>  Python::Requirements [ '/opt/mars/requirements.txt': ],
+    notify   =>  Python::Requirements [ '/opt/mars/requirements.txt'],
   }
 
   file { '/etc/mars/django_local_settings.py':
