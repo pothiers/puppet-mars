@@ -40,7 +40,7 @@ class mars::install (
   }
   -> Package<| provider == 'yum' |>
 
-  package{ ['postgresql', 'postgresql-devel', 'expect'] : } ->
+  package{ ['postgresql', 'postgresql-devel', 'expect'] : } 
   ensure_resource(
     'class',
     'python',
@@ -50,7 +50,7 @@ class mars::install (
       dev        => 'present',
       virtualenv => 'present',
       gunicorn   => 'present',
-      } ) ->
+      } ) 
   python::pyvenv { '/opt/mars' :
     ensure    => present,
     version   => '35',
