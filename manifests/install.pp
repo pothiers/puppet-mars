@@ -41,23 +41,31 @@ class mars::install (
   -> Package<| provider == 'yum' |>
 
   package{ ['postgresql', 'postgresql-devel', 'expect'] : } ->
-  package { ['python34u-pip']: } ->
+  #package { ['python34u-pip']: } ->
   class { 'python':
-    version    => '34u',
-    pip        => false,
+    #!version    => '34u',
+    #!pip        => false,
+    version    => '35',
+    pip        => true,
     dev        => true,
+    gunicorn   => true,
   } ->
-  file { '/usr/bin/pip':
-    ensure => 'link',
-    target => '/usr/bin/pip3.4',
-  } ->
+  #!file { '/usr/bin/pip':
+  #!  ensure => 'link',
+  #!  target => '/usr/bin/pip3.4',
+  #!} ->
   file { '/usr/local/bin/python3':
     ensure => 'link',
     target => '/usr/bin/python3',
-  } ->
-  python::requirements { '/opt/mars/requirements.txt':
-    owner     => 'root',
-  } 
+    } ->
+    python::pyvenv { '/var/www/project1' :
+      ensure       => present,
+      systempkgs   => true,
+      venv_dir     => '/opt/mars/virtualenvs',
+      owner        => 'pothiers',
+      group        => 'archive',
+    } ->
+  python::requirements { '/opt/mars/requirements.txt': } 
 
   file { '/etc/yum.repos.d/nginx.repo':
     replace => false,
