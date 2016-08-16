@@ -48,7 +48,7 @@ class mars::install (
     virtualenv => 'present',
     gunicorn   => 'present',
   } ->
-  python::pyvenv { '/opt/mars' :`
+  python::pyvenv { '/opt/mars' :
     ensure    => present,
     version   => '3.4u',
     venv_dir  => '/home/pothiers/virtualenvs',
