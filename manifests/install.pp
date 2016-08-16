@@ -40,6 +40,33 @@ class mars::install (
   }
   -> Package<| provider == 'yum' |>
 
+  package{ ['postgresql', 'postgresql-devel', 'expect', 'python34u-pip'] : } ->
+  class { 'python':
+    version    => '34u',
+    pip        => 'present',
+    dev        => 'present',
+    virtualenv => 'present',
+    gunicorn   => 'present',
+  } ->
+  python::pyvenv { '/opt/mars' :
+    ensure    => present,
+    version   => '3.4u',
+    venv_dir  => '/home/pothiers/virtualenvs',
+    owner     => 'pothiers',
+    }
+  python::requirements { '/opt/mars/requirements.txt':
+    owner     => 'root',
+    #!subscribe => File['/opt/mars/requirements.txt'],
+    virtualenv => '/opt/mars',
+  } 
+
+  file { '/etc/yum.repos.d/nginx.repo':
+    replace => false,
+    source => 'puppet:///modules/mars/nginx.repo',
+  } ->
+  package { ['nginx'] : }
+
+
 #! yumrepo { 'mars':
 #!   descr    => 'mars',
 #!   baseurl  => "http://mirrors.sdm.noao.edu/mars",
@@ -49,30 +76,6 @@ class mars::install (
 #!   mirrorlist => absent,
 #! }
 #! -> Package<| provider == 'yum' |>
-
-
-  package { ['python34u-pip']: } ->
-  class { 'python':
-    version    => '34u',
-    pip        => false,
-    dev        => true,
-  } ->
-  file { '/usr/bin/pip':
-    ensure => 'link',
-    target => '/usr/bin/pip3.4',
-  } ->
-  package{ ['postgresql', 'postgresql-devel', 'expect'] : } 
-  python::requirements { '/opt/mars/requirements.txt':
-    owner     => 'root',
-    #!subscribe => File['/opt/mars/requirements.txt'],
-  } 
-
-  file { '/etc/yum.repos.d/nginx.repo':
-    replace => false,
-    source => 'puppet:///modules/mars/nginx.repo',
-  } ->
-  package { ['nginx'] : }
-
 
   
 }
