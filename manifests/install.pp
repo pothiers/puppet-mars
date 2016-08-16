@@ -29,7 +29,6 @@ class mars::install (
     ensure => 'directory',
   }
 
-
   yumrepo { 'ius':
     descr      => 'ius - stable',
     baseurl    => 'http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/',
@@ -49,10 +48,10 @@ class mars::install (
     #!pip        => true,
     dev        => true,
   } ->
-  #!file { '/usr/bin/pip':
-  #!  ensure => 'link',
-  #!  target => '/usr/bin/pip3.4',
-  #!} ->
+  file { '/usr/bin/pip':
+    ensure => 'link',
+    target => '/usr/bin/pip3.4',
+  } ->
   file { '/usr/local/bin/python3':
     ensure => 'link',
     target => '/usr/bin/python3',
