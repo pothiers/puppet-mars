@@ -43,10 +43,10 @@ class mars::install (
   package{ ['postgresql', 'postgresql-devel', 'expect'] : } ->
   #package { ['python34u-pip']: } ->
   class { 'python':
-    #!version    => '34u',
+    version    => '34u',
     #!pip        => false,
-    version    => '35',
-    pip        => true,
+    #!version    => '35',
+    #!pip        => true,
     dev        => true,
     gunicorn   => true,
   } ->
@@ -58,12 +58,12 @@ class mars::install (
     ensure => 'link',
     target => '/usr/bin/python3',
     } ->
-    python::pyvenv { '/var/www/project1' :
-      ensure       => present,
-      systempkgs   => true,
-      venv_dir     => '/opt/mars/virtualenvs',
-      owner        => 'pothiers',
-      group        => 'archive',
+  python::pyvenv { '/var/www/project1' :
+    ensure       => present,
+    systempkgs   => true,
+    venv_dir     => '/opt/mars/virtualenvs',
+    owner        => 'pothiers',
+    group        => 'archive',
     } ->
   python::requirements { '/opt/mars/requirements.txt': } 
 
