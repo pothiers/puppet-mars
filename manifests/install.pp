@@ -44,7 +44,7 @@ class mars::install (
   package { ['python34u-pip']: } ->
   class { 'python':
     version    => '34u',
-    #!pip        => false,
+    pip        => false,
     #!version    => '35',
     #!pip        => true,
     dev        => true,
