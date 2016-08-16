@@ -9,10 +9,10 @@ class mars::install (
     group  => 'root',
     mode   => '0774',
   } ->
-  file { '/etc/mars/requirements.txt':
-    replace => true,
-    source => 'puppet:///modules/mars/requirements.txt',
-  } ->
+#!  file { '/etc/mars/requirements.txt':
+#!    replace => true,
+#!    source => 'puppet:///modules/mars/requirements.txt',
+#!  } ->
   vcsrepo { '/opt/mars' :
     ensure   => latest,
     provider => git,
