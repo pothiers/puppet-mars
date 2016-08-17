@@ -18,7 +18,7 @@ class mars::install (
     provider => git,
     source   => 'https://github.com/pothiers/mars.git',
     #!revision => 'master',
-    revision => 'pat',
+    revision => '1.3',
     notify   =>  Python::Requirements [ '/opt/mars/requirements.txt'],
   }
 
