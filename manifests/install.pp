@@ -1,5 +1,6 @@
 class mars::install (
   $djsettings = hiera('localdjango'),
+  $nginxconf = hiera('nginx-conf'),
   ) {
   ensure_resource('package', ['git', ], {'ensure' => 'present'})
   include augeas
@@ -26,8 +27,13 @@ class mars::install (
     replace => false,
     source  => "${djsettings}",
   } 
+  file { '/etc/mars/django_local_settings.py':
+    replace => false,
+    source  => "${djsettings}",
+  } 
 
-  file { [ '/var/www', '/var/www/mars', '/var/www/mars/static']:
+  file { [ '/var/www', '/var/www/mars', '/var/www/static/',
+           '/var/www/mars/static']:
     ensure => 'directory',
   }
 
