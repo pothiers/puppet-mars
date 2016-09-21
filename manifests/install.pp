@@ -24,9 +24,9 @@ class mars::install ( ) {
     replace => false,
     source  => hiera('localdjango'),
   } 
-  file { '/etc/nginx/gnix.conf':
+  file { '/etc/nginx/ngnix.conf':
     replace => false,
-    source  => hiera('nginx-conf'),
+    source  => hiera('nginx_conf'),
   } 
 
   file { [ '/var/www', '/var/www/mars', '/var/www/static/',
