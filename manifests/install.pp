@@ -1,7 +1,4 @@
-class mars::install (
-  $djsettings = hiera('localdjango'),
-  $nginxconf = hiera('nginx-conf'),
-  ) {
+class mars::install ( ) {
   ensure_resource('package', ['git', ], {'ensure' => 'present'})
   include augeas
 
@@ -19,17 +16,17 @@ class mars::install (
     provider => git,
     source   => 'https://github.com/pothiers/mars.git',
     #!revision => 'master',
-    revision => '1.4rc3',
+    revision => 'pat',
     notify   =>  Python::Requirements [ '/opt/mars/requirements.txt'],
   }
 
   file { '/etc/mars/django_local_settings.py':
     replace => false,
-    source  => "${djsettings}",
+    source  => hiera('localdjango'),
   } 
-  file { '/etc/mars/django_local_settings.py':
+  file { '/etc/nginx/gnix.conf':
     replace => false,
-    source  => "${djsettings}",
+    source  => hiera('nginx-conf'),
   } 
 
   file { [ '/var/www', '/var/www/mars', '/var/www/static/',
