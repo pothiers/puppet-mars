@@ -5,18 +5,16 @@ class mars::install ( ) {
   file { [ '/var/run/mars', '/var/log/mars', '/etc/mars', '/var/mars']:
     ensure => 'directory',
     group  => 'root',
-    mode   => '0774',
+    owner    => 'pothiers',
+    mode   => '0777',
   } ->
-#!  file { '/etc/mars/requirements.txt':
-#!    replace => true,
-#!    source => 'puppet:///modules/mars/requirements.txt',
-#!  } ->
   vcsrepo { '/opt/mars' :
     ensure   => latest,
     provider => git,
     source   => 'https://github.com/pothiers/mars.git',
     #!revision => 'master',
     revision => 'pat',
+    owner    => 'pothiers',
     notify   =>  Python::Requirements [ '/opt/mars/requirements.txt'],
   }
 
@@ -29,6 +27,7 @@ class mars::install ( ) {
     source  => hiera('nginx_conf'),
   } 
 
+  # for nginx
   file { [ '/var/www', '/var/www/mars', '/var/www/static/',
            '/var/www/mars/static']:
     ensure => 'directory',
