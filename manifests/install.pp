@@ -2,21 +2,6 @@ class mars::install ( ) {
   ensure_resource('package', ['git', ], {'ensure' => 'present'})
   include augeas
 
-  file { [ '/var/run/mars', '/var/log/mars', '/etc/mars', '/var/mars']:
-    ensure => 'directory',
-    group  => 'root',
-    owner    => 'pothiers',
-    mode   => '0777',
-  } ->
-  vcsrepo { '/opt/mars' :
-    ensure   => latest,
-    provider => git,
-    source   => 'https://github.com/pothiers/mars.git',
-    #!revision => 'master',
-    revision => 'pat',
-    owner    => 'pothiers',
-    notify   =>  Python::Requirements [ '/opt/mars/requirements.txt'],
-  }
 
   file { '/etc/mars/django_local_settings.py':
     replace => false,
@@ -43,6 +28,21 @@ class mars::install ( ) {
   }
   -> Package<| provider == 'yum' |>
 
+  file { [ '/var/run/mars', '/var/log/mars', '/etc/mars', '/var/mars']:
+    ensure => 'directory',
+    group  => 'root',
+    owner    => 'pothiers',
+    mode   => '0777',
+  } ->
+  vcsrepo { '/opt/mars' :
+    ensure   => latest,
+    provider => git,
+    source   => 'https://github.com/pothiers/mars.git',
+    #!revision => 'master',
+    revision => 'pat',
+    owner    => 'pothiers',
+    notify   =>  Python::Requirements [ '/opt/mars/requirements.txt'],
+  }->
   package{ ['postgresql', 'postgresql-devel', 'expect'] : } ->
   package { ['python34u-pip']: } ->
   class { 'python':
