@@ -1,7 +1,17 @@
 class mars::install ( ) {
+  notice("Loading mars::install.pp")
+  
   ensure_resource('package', ['git', ], {'ensure' => 'present'})
   include augeas
 
+  user { 'devops' :
+    ensure     => 'present',
+    comment    => 'For python virtualenv and running mars.',
+    managehome => true,
+    password   => '$1$Pk1b6yel$tPE2h9vxYE248CoGKfhR41',  # tada"Password"
+    system     => true,
+  }
+  
 
   file { '/etc/mars/django_local_settings.py':
     replace => false,
@@ -30,8 +40,6 @@ class mars::install ( ) {
 
   file { [ '/var/run/mars', '/var/log/mars', '/etc/mars', '/var/mars']:
     ensure => 'directory',
-    group  => 'root',
-    owner    => 'pothiers',
     mode   => '0777',
   } ->
   vcsrepo { '/opt/mars' :
@@ -40,7 +48,7 @@ class mars::install ( ) {
     source   => 'https://github.com/pothiers/mars.git',
     #!revision => 'master',
     revision => 'pat',
-    owner    => 'pothiers',
+    owner    => 'devops',
     notify   =>  Python::Requirements [ '/opt/mars/requirements.txt'],
   }->
   package{ ['postgresql', 'postgresql-devel', 'expect'] : } ->
@@ -64,10 +72,12 @@ class mars::install ( ) {
     ensure       => present,
     systempkgs   => true,
     venv_dir     => '/opt/mars/virtualenvs',
-    owner        => 'pothiers',
-    group        => 'archive',
+    owner        => 'devops',
+    group        => 'devops',
     } ->
-  python::requirements { '/opt/mars/requirements.txt': } 
+    python::requirements { '/opt/mars/requirements.txt': }
+    # source /opt/mars/virtualenvs/bin/activate
+    # pip3 install -r /opt/mars/requirements.txt
 
   file { '/etc/yum.repos.d/nginx.repo':
     replace => false,
@@ -75,6 +85,7 @@ class mars::install ( ) {
   } ->
   package { ['nginx'] : }
 
+  
 
 #! yumrepo { 'mars':
 #!   descr    => 'mars',
