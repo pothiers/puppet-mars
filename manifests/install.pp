@@ -16,8 +16,9 @@ class mars::install (
   
   class { 'apache': } ->
   apache::vhost { "${marsvhost}":
-    port   => '80',
-    docroot => '/var/www/mars',
+    port     => '80',
+    priority => '15',
+    docroot  => '/var/www/mars',
   }
 
 
