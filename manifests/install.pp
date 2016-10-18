@@ -1,4 +1,6 @@
-class mars::install ( ) {
+class mars::install (
+  $marsvhost = hiera('mars_vhost'),
+  ) {
   notice("Loading mars::install.pp")
   
   ensure_resource('package', ['git', ], {'ensure' => 'present'})
@@ -12,6 +14,12 @@ class mars::install ( ) {
     system     => true,
   }
   
+  class { 'apache': } ->
+  apache::vhost { "${marsvhost}":
+    port   => '80',
+    docroot => '/var/www/mars',
+  }
+
 
   file { '/etc/mars/django_local_settings.py':
     replace => false,
@@ -75,7 +83,9 @@ class mars::install ( ) {
     owner        => 'devops',
     group        => 'devops',
     } ->
-    python::requirements { '/opt/mars/requirements.txt': }
+    python::requirements { '/opt/mars/requirements.txt':
+      owner    => 'devops',
+    }
     # source /opt/mars/virtualenvs/bin/activate
     # pip3 install -r /opt/mars/requirements.txt
 
