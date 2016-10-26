@@ -92,8 +92,7 @@ class mars::install (
     version    => 'python35u',
     pip        => 'present',
     dev        => 'present',
-    #!virtualenv => 'present',
-    virtualenv => 'absent',
+    virtualenv => 'absent',  # 'present',
     gunicorn   => 'absent',
   } ->
   python::pyvenv  { '/opt/mars/venv':
