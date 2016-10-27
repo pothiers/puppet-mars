@@ -94,7 +94,11 @@ class mars::install (
     dev        => 'present',
     virtualenv => 'absent',  # 'present',
     gunicorn   => 'absent',
-  } ->
+    } ->
+  file { '/usr/bin/python3':
+    ensure => 'link',
+    target => '/usr/bin/python3.5',
+    } ->
   python::pyvenv  { '/opt/mars/venv':
     version  => '3.5',
 #!    systempkgs   => true,    
@@ -103,7 +107,6 @@ class mars::install (
     virtualenv => '/opt/mars/venv',
   }
   # source /opt/mars/virtualenvs/bin/activate
-  # pip3 install -r /opt/mars/requirements.txt
 
   file { '/etc/yum.repos.d/nginx.repo':
     replace => false,
