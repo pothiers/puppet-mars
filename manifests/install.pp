@@ -1,5 +1,5 @@
 class mars::install (
-  $marsvhost = hiera('mars_vhost'),
+  $marsvhost = hiera('mars_vhost', 'www.mars.noao.edu'),
   ) {
   notice("Loading mars::install.pp")
   
@@ -101,10 +101,11 @@ class mars::install (
     } ->
   python::pyvenv  { '/opt/mars/venv':
     version  => '3.5',
-#!    systempkgs   => true,    
   } ->
   python::requirements  { '/opt/mars/requirements.txt':
     virtualenv => '/opt/mars/venv',
+    #!owner      => 'devops',
+    #!require  => [ User['devops'], ],
   }
   # source /opt/mars/virtualenvs/bin/activate
 
