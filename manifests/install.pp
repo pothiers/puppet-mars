@@ -1,5 +1,5 @@
 class mars::install (
-  $marsvhost = hiera('mars_vhost'),
+  $marsvhost = hiera('mars_vhost', 'www.mars.noao.edu'),
   ) {
   notice("Loading mars::install.pp")
   
