@@ -58,7 +58,9 @@ class mars::install (
     #!revision => 'master',
     revision => 'pat',
     owner    => 'devops',
-    notify   =>  Python::Requirements [ '/opt/mars/requirements.txt'],
+    notify   =>  [
+      Python::Requirements [ '/opt/mars/requirements.txt'],
+      ],
   }->
   package{ ['postgresql', 'postgresql-devel', 'expect'] : } ->
 #!  package { ['python34u-pip']: } ->
