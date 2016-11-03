@@ -17,7 +17,7 @@ class mars::install (
   class { 'apache': } ->
   apache::vhost { "${marsvhost}":
     port     => '80',
-    priority => '15',
+    #!priority => '15',
     docroot  => '/var/www/mars',
   }
 
@@ -58,37 +58,58 @@ class mars::install (
     #!revision => 'master',
     revision => 'pat',
     owner    => 'devops',
-    notify   =>  Python::Requirements [ '/opt/mars/requirements.txt'],
+    notify   =>  [
+      Python::Requirements [ '/opt/mars/requirements.txt'],
+      ],
   }->
   package{ ['postgresql', 'postgresql-devel', 'expect'] : } ->
-  package { ['python34u-pip']: } ->
-  class { 'python':
-    version    => '34u',
-    pip        => false,
-    #!version    => '35',
-    #!pip        => true,
-    dev        => true,
-  } ->
-  file { '/usr/bin/pip':
-    ensure => 'link',
-    target => '/usr/bin/pip3.4',
-  } ->
-  file { '/usr/local/bin/python3':
-    ensure => 'link',
-    target => '/usr/bin/python3',
+#!  package { ['python34u-pip']: } ->
+#!  class { 'python':
+#!    version    => '34u',
+#!    pip        => false,
+#!    #!version    => '35',
+#!    #!pip        => true,
+#!    dev        => true,
+#!  } ->
+#!  file { '/usr/bin/pip':
+#!    ensure => 'link',
+#!    target => '/usr/bin/pip3.4',
+#!  } ->
+#!  file { '/usr/local/bin/python3':
+#!    ensure => 'link',
+#!    target => '/usr/bin/python3',
+#!    } ->
+#!  python::pyvenv { '/var/www/project1' :
+#!    ensure       => present,
+#!    systempkgs   => true,
+#!    venv_dir     => '/opt/mars/virtualenvs',
+#!    owner        => 'devops',
+#!    group        => 'devops',
+#!    } ->
+#!  python::requirements { '/opt/mars/requirements.txt':
+#!    owner    => 'devops',
+#!    }
+
+  class { 'python' :
+    version    => 'python35u',
+    pip        => 'present',
+    dev        => 'present',
+    virtualenv => 'absent',  # 'present',
+    gunicorn   => 'absent',
     } ->
-  python::pyvenv { '/var/www/project1' :
-    ensure       => present,
-    systempkgs   => true,
-    venv_dir     => '/opt/mars/virtualenvs',
-    owner        => 'devops',
-    group        => 'devops',
+  file { '/usr/bin/python3':
+    ensure => 'link',
+    target => '/usr/bin/python3.5',
     } ->
-    python::requirements { '/opt/mars/requirements.txt':
-      owner    => 'devops',
-    }
-    # source /opt/mars/virtualenvs/bin/activate
-    # pip3 install -r /opt/mars/requirements.txt
+  python::pyvenv  { '/opt/mars/venv':
+    version  => '3.5',
+  } ->
+  python::requirements  { '/opt/mars/requirements.txt':
+    virtualenv => '/opt/mars/venv',
+    #!owner      => 'devops',
+    #!require  => [ User['devops'], ],
+  }
+  # source /opt/mars/virtualenvs/bin/activate
 
   file { '/etc/yum.repos.d/nginx.repo':
     replace => false,
