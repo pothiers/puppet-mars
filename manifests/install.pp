@@ -1,8 +1,9 @@
 class mars::install (
   $marsvhost = hiera('mars_vhost', 'www.mars.noao.edu'),
+  $marsversion = hiera('marsversion', 'master'),
   ) {
-  notice("Loading mars::install.pp")
-  
+  notice("Loading mars::install.pp; marsversion=${marsversion}")  
+
   ensure_resource('package', ['git', ], {'ensure' => 'present'})
   include augeas
 
@@ -56,12 +57,13 @@ class mars::install (
     provider => git,
     source   => 'https://github.com/pothiers/mars.git',
     #!revision => 'master',
-    revision => 'pat',
+    revision => "${marsversion}",
     owner    => 'devops',
     notify   =>  [
-      Python::Requirements [ '/opt/mars/requirements.txt'],
-      ],
-  }->
+                  Python::Requirements [ '/opt/mars/requirements.txt'],
+                  Exec['start mars'],
+                  ],
+    } ->
   package{ ['postgresql', 'postgresql-devel', 'expect'] : } ->
 #!  package { ['python34u-pip']: } ->
 #!  class { 'python':
