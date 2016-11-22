@@ -59,6 +59,7 @@ class mars::install (
     #!revision => 'master',
     revision => "${marsversion}",
     owner    => 'devops',
+    group    => 'devops',
     notify   =>  [
                   Python::Requirements [ '/opt/mars/requirements.txt'],
                   Exec['start mars'],
