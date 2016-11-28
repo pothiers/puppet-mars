@@ -60,6 +60,7 @@ class mars::install (
     revision => "${marsversion}",
     owner    => 'devops',
     group    => 'devops',
+    require  => User['devops'],
     notify   =>  [
                   Python::Requirements [ '/opt/mars/requirements.txt'],
                   Exec['start mars'],
@@ -108,13 +109,14 @@ class mars::install (
     version  => '3.5',
     owner    => 'devops',
     group    => 'devops',
+    require  => [ User['devops'], ],
   } ->
   python::requirements  { '/opt/mars/requirements.txt':
     virtualenv => '/opt/mars/venv',
     owner    => 'devops',
     group    => 'devops',
+    require  => [ User['devops'], ],
   }
-  # source /opt/mars/virtualenvs/bin/activate
 
   file { '/etc/yum.repos.d/nginx.repo':
     replace => false,
