@@ -1,6 +1,7 @@
 class mars::service  (
   ) {
-  notice("Loading mars::service.pp")  
+  notice("Loading mars::service.pp")    # output to puppet master
+  notify{ "Loading mars::service.pp": } # output to puppet client
   exec { 'start mars':
     cwd     => '/opt/mars',
     command => "/bin/bash -c 'source /opt/mars/venv/bin/activate; /opt/mars/marssite/start-mars.sh'",
