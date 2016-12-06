@@ -2,7 +2,7 @@ class mars::install (
   $marsvhost = hiera('mars_vhost', 'www.mars.noao.edu'),
   $marsversion = hiera('marsversion', 'master'),
   ) {
-  notify{"Loading mars::install.pp; marsversion=${marsversion}":}
+  #notify{"Loading mars::install.pp; marsversion=${marsversion}":}
 
   ensure_resource('package', ['git', ], {'ensure' => 'present'})
   include augeas
