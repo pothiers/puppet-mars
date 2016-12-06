@@ -14,6 +14,17 @@ class mars::install (
     password   => '$1$Pk1b6yel$tPE2h9vxYE248CoGKfhR41',  # tada"Password"
     system     => true,
   }
+  file {  '/etc/mars/from-hiera.yaml': 
+    ensure  => 'present',
+    replace => true,
+    content => "---
+marsvhost: ${marsvhost}
+marsversion: ${marsversion}
+",
+    group   => 'root',
+    mode    => '0774',
+  }
+  
   
   class { 'apache': } ->
   apache::vhost { "${marsvhost}":

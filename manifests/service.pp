@@ -9,7 +9,7 @@ class mars::service  (
     user    => 'devops',
     subscribe => [
       Vcsrepo['/opt/mars'], 
-      File['/opt/mars/venv'],
+      File['/opt/mars/venv', '/etc/mars/from-hiera.yaml'],
       Python::Requirements['/opt/mars/requirements.txt'],
       ],
   }
