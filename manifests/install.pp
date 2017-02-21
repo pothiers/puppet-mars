@@ -2,7 +2,7 @@ class mars::install (
   $marsvhost = hiera('mars_vhost', 'www.mars.noao.edu'),
   $marsversion = hiera('marsversion', 'master'),
   ) {
-  #notify{"Loading mars::install.pp; marsversion=${marsversion}":}
+  notify{"Loading mars::install.pp; marsversion=${marsversion}":}
 
   ensure_resource('package', ['git', ], {'ensure' => 'present'})
   include augeas
@@ -34,7 +34,7 @@ marsversion: ${marsversion}
   }
 
   file { '/etc/mars/django_local_settings.py':
-    replace => false,
+    replace => true,
     source  => hiera('localdjango'),
   } 
   file { '/etc/nginx/ngnix.conf':
