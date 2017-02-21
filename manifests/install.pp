@@ -70,10 +70,7 @@ marsversion: ${marsversion}
     owner    => 'devops',
     group    => 'devops',
     require  => User['devops'],
-    notify   =>  [
-                  Python::Requirements [ '/opt/mars/requirements.txt'],
-                  Exec['start mars'],
-                  ],
+    notify   => Exec['start mars'],
     } ->
   package{ ['postgresql', 'postgresql-devel', 'expect'] : } ->
   class { 'python' :

@@ -13,5 +13,4 @@ class mars::service  (
       Python::Requirements['/opt/mars/requirements.txt'],
       ],
   }
-  
 }
