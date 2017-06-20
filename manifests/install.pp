@@ -26,12 +26,12 @@ marsversion: ${marsversion}
   }
   
   
-  class { 'apache': } ->
-  apache::vhost { "${marsvhost}":
-    port     => '80',
-    #!priority => '15',
-    docroot  => '/var/www/mars',
-  }
+#!  class { 'apache': } ->
+#!  apache::vhost { "${marsvhost}":
+#!    port     => '80',
+#!    #!priority => '15',
+#!    docroot  => '/var/www/mars',
+#!  }
 
   file { '/etc/mars/django_local_settings.py':
     replace => true,
