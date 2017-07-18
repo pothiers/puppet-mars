@@ -37,6 +37,10 @@ marsversion: ${marsversion}
     replace => true,
     source  => hiera('localdjango'),
   } 
+  file { '/etc/mars/django_local_settings_test.py':
+    replace => true,
+    source  => hiera('localdjangotest', 'puppet:///modules/dmo-hiera/django_settings_local_pat.py'),
+  } 
   file { '/etc/nginx/ngnix.conf':
     replace => false,
     source  => hiera('nginx_conf'),
