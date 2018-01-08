@@ -99,7 +99,11 @@ marsversion: ${marsversion}
     owner    => 'devops',
     group    => 'devops',
     require  => [ User['devops'], ],
-  }
+  } -> 
+  file { '/etc/mars/search-schema.json':
+    replace => true,
+    source  => '/opt/mars/marssite/dal/fixtures/search-schema.json' ,
+  } 
 
   file { '/etc/yum.repos.d/nginx.repo':
     replace => false,
